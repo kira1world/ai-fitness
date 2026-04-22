@@ -1424,6 +1424,22 @@ window.onload = () => {
     userId: "akshay" // 👈 ADD THIS
   })
 });
+  app.post("/chat", async (req, res) => {
+  try {
+    const message = req.body.message;
+
+    // 👇 FORCE USER (temporary fix)
+    const userId = req.body.userId || "guest";
+
+    // continue your AI logic
+    res.json({
+      reply: "AI response for: " + message
+    });
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
   function togglePlan(id) {
     document.getElementById(`days-${id}`)?.classList.toggle('open');
   }
