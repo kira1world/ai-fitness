@@ -1414,6 +1414,16 @@ window.onload = () => {
     document.getElementById("home-summary-protein").innerText = saved.protein;
   }
 };
+  fetch("/chat", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    message: userInput,
+    userId: "akshay" // 👈 ADD THIS
+  })
+});
   function togglePlan(id) {
     document.getElementById(`days-${id}`)?.classList.toggle('open');
   }
