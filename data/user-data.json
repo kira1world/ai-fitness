@@ -1,0 +1,187 @@
+{
+  "056f4aeb-75de-4520-9242-50ae66053fe4": {
+    "profile": {
+      "age": 21,
+      "weight": 73,
+      "height": 178,
+      "activity": "high",
+      "goal": "maintenance",
+      "diet": "nonveg",
+      "calories": 3006,
+      "protein": 117,
+      "workout": [
+        "Strength training",
+        "Zone 2 cardio",
+        "Mobility work"
+      ],
+      "meals": [
+        "Eggs",
+        "Chicken with rice",
+        "Fish",
+        "Curd or whey"
+      ]
+    },
+    "tasks": [
+      {
+        "id": "3cdcdd2c-4ce7-4924-a4e5-905f89ec67d6",
+        "title": "Akshay's Gym Day Plan",
+        "summary": "Strength-focused gym session with balanced nutrition for maintenance",
+        "trainingType": "gym",
+        "daysRequested": 1,
+        "notes": "",
+        "days": [
+          {
+            "day": 1,
+            "diet": "Breakfast: Eggs, Lunch: Chicken with rice, Dinner: Fish, Snack: Curd or whey",
+            "exercise": "Strength training: Squats 4x8, Bench press 4x8, Deadlifts 3x5. Zone 2 cardio: 20min treadmill. Mobility: 10min dynamic stretches",
+            "task": "Track protein intake (117g), hydrate well, focus on form during lifts"
+          }
+        ],
+        "planText": "```json\n{\n  \"title\": \"Akshay's Gym Day Plan\",\n  \"summary\": \"Strength-focused gym session with balanced nutrition for maintenance\",\n  \"days\": [\n    {\n      \"day\": 1,\n      \"diet\": \"Breakfast: Eggs, Lunch: Chicken with rice, Dinner: Fish, Snack: Curd or whey\",\n      \"exercise\": \"Strength training: Squats 4x8, Bench press 4x8, Deadlifts 3x5. Zone 2 cardio: 20min treadmill. Mobility: 10min dynamic stretches\",\n      \"task\": \"Track protein intake (117g), hydrate well, focus on form during lifts\"\n    }\n  ]\n}\n```",
+        "createdAt": "2026-04-20T17:34:45.121Z"
+      }
+    ]
+  },
+  "e52e384c-4982-422a-8fdd-6105ebffcabf": {
+    "profile": {
+      "age": 21,
+      "sex": "male",
+      "weight": 70,
+      "height": 178,
+      "activity": "high",
+      "goal": "fat_loss",
+      "diet": "veg",
+      "calories": 800,
+      "protein": 20,
+      "workout": [],
+      "meals": []
+    },
+    "tasks": [
+      {
+        "id": "8b3f3379-e7e7-421b-a0e5-9fb4a7f03ae5",
+        "title": "7-Day Gym Plan for Beginners",
+        "summary": "A general gym plan focusing on full-body strength and conditioning. Adjust weights based on comfort.",
+        "trainingType": "gym",
+        "daysRequested": 7,
+        "notes": "",
+        "days": [
+          {
+            "day": 1,
+            "diet": "High protein, moderate carbs (e.g., chicken, rice, veggies)",
+            "exercise": "Chest & Triceps: Bench press 3x10, Push-ups 3x12, Tricep dips 3x10",
+            "task": "Drink 3L water, track protein intake"
+          },
+          {
+            "day": 2,
+            "diet": "Balanced macros (e.g., salmon, sweet potato, greens)",
+            "exercise": "Back & Biceps: Pull-ups 3x8, Lat pulldown 3x10, Bicep curls 3x12",
+            "task": "Stretch post-workout, 8h sleep"
+          },
+          {
+            "day": 3,
+            "diet": "High fiber, lean protein (e.g., turkey, quinoa, broccoli)",
+            "exercise": "Legs: Squats 3x12, Lunges 3x10, Calf raises 3x15",
+            "task": "Active recovery walk (30min)"
+          },
+          {
+            "day": 4,
+            "diet": "Carbs pre-workout (e.g., oatmeal, banana, peanut butter)",
+            "exercise": "Shoulders & Abs: Overhead press 3x10, Lateral raises 3x12, Plank 3x30sec",
+            "task": "Foam roll sore muscles"
+          },
+          {
+            "day": 5,
+            "diet": "Protein-rich recovery (e.g., Greek yogurt, berries, nuts)",
+            "exercise": "Full-body circuit: Deadlifts 3x8, Rows 3x10, Burpees 3x12",
+            "task": "Hydrate well, early bedtime"
+          },
+          {
+            "day": 6,
+            "diet": "Healthy fats focus (e.g., avocado, eggs, spinach)",
+            "exercise": "Cardio & Core: Treadmill 20min, Russian twists 3x15, Leg raises 3x12",
+            "task": "Light yoga session"
+          },
+          {
+            "day": 7,
+            "diet": "Cheat meal allowed (keep portions reasonable)",
+            "exercise": "Active rest: Swimming or cycling 30min",
+            "task": "Plan next week's workouts"
+          }
+        ],
+        "planText": "```json\n{\n  \"title\": \"7-Day Gym Plan for Beginners\",\n  \"summary\": \"A general gym plan focusing on full-body strength and conditioning. Adjust weights based on comfort.\",\n  \"days\": [\n    {\n      \"day\": 1,\n      \"diet\": \"High protein, moderate carbs (e.g., chicken, rice, veggies)\",\n      \"exercise\": \"Chest & Triceps: Bench press 3x10, Push-ups 3x12, Tricep dips 3x10\",\n      \"task\": \"Drink 3L water, track protein intake\"\n    },\n    {\n      \"day\": 2,\n      \"diet\": \"Balanced macros (e.g., salmon, sweet potato, greens)\",\n      \"exercise\": \"Back & Biceps: Pull-ups 3x8, Lat pulldown 3x10, Bicep curls 3x12\",\n      \"task\": \"Stretch post-workout, 8h sleep\"\n    },\n    {\n      \"day\": 3,\n      \"diet\": \"High fiber, lean protein (e.g., turkey, quinoa, broccoli)\",\n      \"exercise\": \"Legs: Squats 3x12, Lunges 3x10, Calf raises 3x15\",\n      \"task\": \"Active recovery walk (30min)\"\n    },\n    {\n      \"day\": 4,\n      \"diet\": \"Carbs pre-workout (e.g., oatmeal, banana, peanut butter)\",\n      \"exercise\": \"Shoulders & Abs: Overhead press 3x10, Lateral raises 3x12, Plank 3x30sec\",\n      \"task\": \"Foam roll sore muscles\"\n    },\n    {\n      \"day\": 5,\n      \"diet\": \"Protein-rich recovery (e.g., Greek yogurt, berries, nuts)\",\n      \"exercise\": \"Full-body circuit: Deadlifts 3x8, Rows 3x10, Burpees 3x12\",\n      \"task\": \"Hydrate well, early bedtime\"\n    },\n    {\n      \"day\": 6,\n      \"diet\": \"Healthy fats focus (e.g., avocado, eggs, spinach)\",\n      \"exercise\": \"Cardio & Core: Treadmill 20min, Russian twists 3x15, Leg raises 3x12\",\n      \"task\": \"Light yoga session\"\n    },\n    {\n      \"day\": 7,\n      \"diet\": \"Cheat meal allowed (keep portions reasonable)\",\n      \"exercise\": \"Active rest: Swimming or cycling 30min\",\n      \"task\": \"Plan next week's workouts\"\n    }\n  ]\n}\n```",
+        "createdAt": "2026-04-21T17:33:27.556Z"
+      }
+    ]
+  },
+  "c9dc70c4-842e-46f7-94be-0a680abaabff": {
+    "profile": {
+      "age": 22,
+      "sex": "male",
+      "weight": 70,
+      "height": 178,
+      "activity": "low",
+      "goal": "fat_loss",
+      "diet": "veg",
+      "calories": 2500,
+      "protein": 140,
+      "workout": [],
+      "meals": []
+    },
+    "tasks": [
+      {
+        "id": "1e6e92cd-a96b-4429-8810-3e706b8ac5ee",
+        "title": "7-Day Running Plan for Fat Loss",
+        "summary": "A balanced running and diet plan for fat loss with low activity level.",
+        "trainingType": "running",
+        "daysRequested": 7,
+        "notes": "",
+        "days": [
+          {
+            "day": 1,
+            "diet": "Breakfast: Oatmeal with nuts. Lunch: Lentil soup with veggies. Dinner: Tofu stir-fry.",
+            "exercise": "Run 3km at moderate pace. Stretch post-run.",
+            "task": "Hydrate well and track running distance."
+          },
+          {
+            "day": 2,
+            "diet": "Breakfast: Greek yogurt with honey. Lunch: Chickpea salad. Dinner: Grilled paneer with quinoa.",
+            "exercise": "Rest day. Light walking for 30 mins.",
+            "task": "Focus on protein intake for recovery."
+          },
+          {
+            "day": 3,
+            "diet": "Breakfast: Smoothie with spinach and banana. Lunch: Brown rice with dal. Dinner: Stir-fried veggies with tofu.",
+            "exercise": "Run 4km at moderate pace. Include intervals.",
+            "task": "Monitor heart rate during intervals."
+          },
+          {
+            "day": 4,
+            "diet": "Breakfast: Whole grain toast with peanut butter. Lunch: Vegetable curry with roti. Dinner: Lentil soup with salad.",
+            "exercise": "Rest day. Yoga for flexibility.",
+            "task": "Stay hydrated and stretch well."
+          },
+          {
+            "day": 5,
+            "diet": "Breakfast: Scrambled eggs with veggies. Lunch: Quinoa salad with beans. Dinner: Grilled vegetables with hummus.",
+            "exercise": "Run 5km at steady pace. Cool down stretches.",
+            "task": "Increase distance gradually."
+          },
+          {
+            "day": 6,
+            "diet": "Breakfast: Chia pudding with berries. Lunch: Spinach and cheese wrap. Dinner: Stir-fried tofu with brown rice.",
+            "exercise": "Rest day. Light jog or walk.",
+            "task": "Recover and prepare for next run."
+          },
+          {
+            "day": 7,
+            "diet": "Breakfast: Oatmeal with flaxseeds. Lunch: Grilled vegetable sandwich. Dinner: Lentil stew with whole grain bread.",
+            "exercise": "Run 6km at comfortable pace. Stretch post-run.",
+            "task": "Review weekly progress and adjust plan."
+          }
+        ],
+        "planText": "```json\n{\n  \"title\": \"7-Day Running Plan for Fat Loss\",\n  \"summary\": \"A balanced running and diet plan for fat loss with low activity level.\",\n  \"days\": [\n    {\n      \"day\": 1,\n      \"diet\": \"Breakfast: Oatmeal with nuts. Lunch: Lentil soup with veggies. Dinner: Tofu stir-fry.\",\n      \"exercise\": \"Run 3km at moderate pace. Stretch post-run.\",\n      \"task\": \"Hydrate well and track running distance.\"\n    },\n    {\n      \"day\": 2,\n      \"diet\": \"Breakfast: Greek yogurt with honey. Lunch: Chickpea salad. Dinner: Grilled paneer with quinoa.\",\n      \"exercise\": \"Rest day. Light walking for 30 mins.\",\n      \"task\": \"Focus on protein intake for recovery.\"\n    },\n    {\n      \"day\": 3,\n      \"diet\": \"Breakfast: Smoothie with spinach and banana. Lunch: Brown rice with dal. Dinner: Stir-fried veggies with tofu.\",\n      \"exercise\": \"Run 4km at moderate pace. Include intervals.\",\n      \"task\": \"Monitor heart rate during intervals.\"\n    },\n    {\n      \"day\": 4,\n      \"diet\": \"Breakfast: Whole grain toast with peanut butter. Lunch: Vegetable curry with roti. Dinner: Lentil soup with salad.\",\n      \"exercise\": \"Rest day. Yoga for flexibility.\",\n      \"task\": \"Stay hydrated and stretch well.\"\n    },\n    {\n      \"day\": 5,\n      \"diet\": \"Breakfast: Scrambled eggs with veggies. Lunch: Quinoa salad with beans. Dinner: Grilled vegetables with hummus.\",\n      \"exercise\": \"Run 5km at steady pace. Cool down stretches.\",\n      \"task\": \"Increase distance gradually.\"\n    },\n    {\n      \"day\": 6,\n      \"diet\": \"Breakfast: Chia pudding with berries. Lunch: Spinach and cheese wrap. Dinner: Stir-fried tofu with brown rice.\",\n      \"exercise\": \"Rest day. Light jog or walk.\",\n      \"task\": \"Recover and prepare for next run.\"\n    },\n    {\n      \"day\": 7,\n      \"diet\": \"Breakfast: Oatmeal with flaxseeds. Lunch: Grilled vegetable sandwich. Dinner: Lentil stew with whole grain bread.\",\n      \"exercise\": \"Run 6km at comfortable pace. Stretch post-run.\",\n      \"task\": \"Review weekly progress and adjust plan.\"\n    }\n  ]\n}\n```",
+        "createdAt": "2026-04-22T01:44:39.475Z"
+      }
+    ]
+  }
+}

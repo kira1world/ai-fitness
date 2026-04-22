@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FitAI Planner — Sign In</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0f;
+      --surface: #111118;
+      --surface2: #18181f;
+      --border: rgba(255,255,255,0.07);
+      --border-hover: rgba(255,255,255,0.15);
+      --accent: #c8f05a;
+      --accent2: #7ef5c0;
+      --text: #f0f0f5;
+      --muted: #6b6b80;
+      --error: #ff6b6b;
+    }
+
+    html, body { height: 100%; background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 15px; overflow: hidden; }
+
+    .bg-blobs { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
+    .blob { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.18; animation: drift 12s ease-in-out infinite alternate; }
+    .blob-1 { width: 420px; height: 420px; background: var(--accent); top: -100px; right: -80px; }
+    .blob-2 { width: 340px; height: 340px; background: var(--accent2); bottom: -80px; left: -60px; animation-delay: -4s; }
+    .blob-3 { width: 200px; height: 200px; background: #a78bfa; top: 50%; left: 40%; animation-delay: -8s; }
+    @keyframes drift { from { transform: translate(0,0) scale(1); } to { transform: translate(20px,30px) scale(1.08); } }
+
+    .layout { position: relative; z-index: 1; min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; }
+
+    /* ── Hero side ── */
+    .hero { display: flex; flex-direction: column; justify-content: space-between; padding: 48px 52px; border-right: 1px solid var(--border); }
+    .back-link {
+      display: inline-flex; align-items: center; gap: 7px;
+      color: var(--muted); text-decoration: none; font-size: 13px;
+      transition: color .2s; width: fit-content;
+    }
+    .back-link:hover { color: var(--text); }
+    .back-link svg { width: 14px; height: 14px; }
+    .hero-logo {
+      font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800;
+      display: flex; align-items: center; gap: 10px; margin-top: 24px;
+    }
+    .logo-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 16px var(--accent); }
+
+    .hero-body { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 7px; font-size: 11px;
+      font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--accent); background: rgba(200,240,90,0.08);
+      border: 1px solid rgba(200,240,90,0.2); padding: 6px 14px;
+      border-radius: 100px; margin-bottom: 28px; width: fit-content;
+    }
+    .hero-tag::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+    .hero-headline {
+      font-family: 'Syne', sans-serif; font-size: clamp(34px, 3.5vw, 50px);
+      font-weight: 800; line-height: 1.08; letter-spacing: -2px; margin-bottom: 20px;
+    }
+    .hero-headline em { font-style: normal; color: var(--accent); }
+    .hero-desc { font-size: 15px; color: var(--muted); line-height: 1.7; max-width: 340px; margin-bottom: 44px; }
+
+    .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; max-width: 340px; }
+    .stat-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; padding: 18px 20px; transition: border-color .3s;
+    }
+    .stat-card:hover { border-color: var(--border-hover); }
+    .stat-num { font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 800; color: var(--accent); margin-bottom: 4px; }
+    .stat-label { font-size: 12px; color: var(--muted); }
+
+    .hero-footer { font-size: 12px; color: var(--muted); margin-top: 32px; }
+
+    /* ── Form side ── */
+    .form-side { display: flex; align-items: center; justify-content: center; padding: 52px 56px; }
+    .form-box { width: 100%; max-width: 400px; }
+
+    .form-heading { font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 700; letter-spacing: -.5px; margin-bottom: 8px; }
+    .form-sub { font-size: 14px; color: var(--muted); margin-bottom: 32px; }
+
+    .tabs {
+      display: grid; grid-template-columns: 1fr 1fr;
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 12px; padding: 4px; margin-bottom: 28px;
+    }
+    .tab-btn {
+      background: none; border: none; cursor: pointer;
+      padding: 10px 0; border-radius: 9px;
+      font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500;
+      color: var(--muted); transition: all .2s;
+    }
+    .tab-btn.active { background: var(--surface); color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,.4); }
+
+    .form-panel { display: none; }
+    .form-panel.active { display: block; animation: fadeUp .25s ease; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+    .field { margin-bottom: 16px; }
+    label { display: block; font-size: 12px; font-weight: 500; letter-spacing: .5px; color: var(--muted); text-transform: uppercase; margin-bottom: 8px; }
+    input[type="text"], input[type="password"] {
+      width: 100%; background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 11px; padding: 13px 16px;
+      font-family: 'DM Sans', sans-serif; font-size: 15px; color: var(--text);
+      outline: none; transition: border-color .2s, box-shadow .2s; -webkit-appearance: none;
+    }
+    input:focus { border-color: rgba(200,240,90,.4); box-shadow: 0 0 0 3px rgba(200,240,90,.08); }
+    input::placeholder { color: var(--muted); }
+
+    .btn-submit {
+      width: 100%; padding: 14px;
+      background: var(--accent); color: #0a0a0f;
+      font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700;
+      border: none; border-radius: 11px; cursor: pointer;
+      letter-spacing: .3px; margin-top: 8px;
+      transition: transform .15s, box-shadow .15s, background .15s;
+    }
+    .btn-submit:hover { background: #d6f96a; transform: translateY(-1px); box-shadow: 0 6px 28px rgba(200,240,90,.35); }
+    .btn-submit:active { transform: translateY(0); }
+    .btn-submit:disabled { opacity: .5; cursor: not-allowed; transform: none; box-shadow: none; }
+
+    .error-msg {
+      background: rgba(255,107,107,.1); border: 1px solid rgba(255,107,107,.25);
+      color: var(--error); border-radius: 10px; padding: 11px 14px;
+      font-size: 13px; margin-top: 14px; display: none;
+    }
+    .error-msg.show { display: block; animation: fadeUp .2s ease; }
+
+    @media (max-width: 768px) {
+      .layout { grid-template-columns: 1fr; overflow-y: auto; }
+      .hero { display: none; }
+      .form-side { min-height: 100vh; padding: 40px 28px; }
+      html, body { overflow: auto; }
+    }
+  </style>
+</head>
+<body>
+<div class="bg-blobs">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+</div>
+
+<div class="layout">
+
+  <!-- Hero left panel -->
+  <div class="hero">
+    <div>
+      <a href="/home" class="back-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+        Back to home
+      </a>
+      <div class="hero-logo">
+        <div class="logo-dot"></div>
+        FitAI Planner
+      </div>
+    </div>
+
+    <div class="hero-body">
+      <div class="hero-tag">AI Fitness Coach</div>
+      <h1 class="hero-headline">Train smarter,<br /><em>not harder.</em></h1>
+      <p class="hero-desc">Personalized plans, real-time AI coaching, and data-driven nutrition — all powered by AI that knows your goals.</p>
+      <div class="stats">
+        <div class="stat-card"><div class="stat-num">14+</div><div class="stat-label">Day plan support</div></div>
+        <div class="stat-card"><div class="stat-num">3×</div><div class="stat-label">Faster goal reach</div></div>
+        <div class="stat-card"><div class="stat-num">AI</div><div class="stat-label">Powered coaching</div></div>
+        <div class="stat-card"><div class="stat-num">∞</div><div class="stat-label">Custom variations</div></div>
+      </div>
+    </div>
+
+    <div class="hero-footer">© 2026 FitAI Planner. Personalized AI coaching.</div>
+  </div>
+
+  <!-- Form right panel -->
+  <div class="form-side">
+    <div class="form-box">
+      <div class="form-heading" id="form-heading">Welcome back</div>
+      <p class="form-sub" id="form-sub">Sign in to continue your fitness journey</p>
+
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="login" onclick="switchTab('login')">Sign In</button>
+        <button class="tab-btn" data-tab="register" onclick="switchTab('register')">Create Account</button>
+      </div>
+
+      <!-- Login -->
+      <div class="form-panel active" id="panel-login">
+        <div class="field">
+          <label>Username</label>
+          <input type="text" id="login-username" placeholder="your_username" autocomplete="username" />
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password" />
+        </div>
+        <button class="btn-submit" id="login-btn" onclick="submitLogin()">Sign In →</button>
+        <div class="error-msg" id="login-error"></div>
+      </div>
+
+      <!-- Register -->
+      <div class="form-panel" id="panel-register">
+        <div class="field">
+          <label>Display Name</label>
+          <input type="text" id="reg-display" placeholder="Your full name" autocomplete="name" />
+        </div>
+        <div class="field">
+          <label>Username</label>
+          <input type="text" id="reg-username" placeholder="choose_a_username" autocomplete="username" />
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <input type="password" id="reg-password" placeholder="Min. 6 characters" autocomplete="new-password" />
+        </div>
+        <button class="btn-submit" id="reg-btn" onclick="submitRegister()">Create Account →</button>
+        <div class="error-msg" id="reg-error"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  // Auto-switch to register tab if URL has #register
+  if (window.location.hash === '#register') switchTab('register');
+
+  function switchTab(tab) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+    document.querySelectorAll('.form-panel').forEach(p => p.classList.toggle('active', p.id === `panel-${tab}`));
+    const h = document.getElementById('form-heading');
+    const s = document.getElementById('form-sub');
+    if (tab === 'login') {
+      h.textContent = 'Welcome back';
+      s.textContent = 'Sign in to continue your fitness journey';
+    } else {
+      h.textContent = 'Get started free';
+      s.textContent = 'Create your FitAI Planner account today';
+    }
+    history.replaceState(null, '', tab === 'register' ? '#register' : '#login');
+  }
+
+  function setLoading(btnId, loading) {
+    const btn = document.getElementById(btnId);
+    btn.disabled = loading;
+    btn.textContent = loading ? 'Please wait…' : (btnId === 'login-btn' ? 'Sign In →' : 'Create Account →');
+  }
+
+  function showError(id, msg) {
+    const el = document.getElementById(id);
+    el.textContent = msg; el.classList.add('show');
+  }
+  function hideError(id) { document.getElementById(id).classList.remove('show'); }
+
+  async function submitLogin() {
+    hideError('login-error');
+    const username = document.getElementById('login-username').value.trim();
+    const password = document.getElementById('login-password').value;
+    if (!username || !password) return showError('login-error', 'Enter your username and password.');
+    setLoading('login-btn', true);
+    try {
+      const r = await fetch('/api/login', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      });
+      const data = await r.json();
+      if (!r.ok) throw new Error(data.error || 'Login failed.');
+      window.location.href = '/';
+    } catch (e) { showError('login-error', e.message); setLoading('login-btn', false); }
+  }
+
+  async function submitRegister() {
+    hideError('reg-error');
+    const displayName = document.getElementById('reg-display').value.trim();
+    const username = document.getElementById('reg-username').value.trim();
+    const password = document.getElementById('reg-password').value;
+    if (!username || !password) return showError('reg-error', 'Fill in all required fields.');
+    setLoading('reg-btn', true);
+    try {
+      const r = await fetch('/api/register', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, displayName, password })
+      });
+      const data = await r.json();
+      if (!r.ok) throw new Error(data.error || 'Registration failed.');
+      window.location.href = '/';
+    } catch (e) { showError('reg-error', e.message); setLoading('reg-btn', false); }
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key !== 'Enter') return;
+    const active = document.querySelector('.form-panel.active');
+    if (active.id === 'panel-login') submitLogin();
+    else submitRegister();
+  });
+</script>
+</body>
+</html>

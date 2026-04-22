@@ -1,0 +1,23 @@
+[
+  {
+    "id": "056f4aeb-75de-4520-9242-50ae66053fe4",
+    "username": "akshay_manderna",
+    "displayName": "akshay",
+    "password": "scrypt:e5d49348c01317ff9de0f9a78b18ede7:2f6f87ac4fab891999c76b190e654a7ab8b9a0f554f7ba39db55ddc9a1024e889e787b6860dd6e27f63ecc4d62af74897f5aa184efc56010a2149df485710d77",
+    "createdAt": "2026-04-20T17:25:36.749Z"
+  },
+  {
+    "id": "e52e384c-4982-422a-8fdd-6105ebffcabf",
+    "username": "mukul",
+    "displayName": "mukul",
+    "password": "scrypt:25b7cd1d70b025ea16a828088f89aca1:67202c3e4bcbbb881f5108bd419619ee8e62663fd3cc2bdc0da40cfe41cbd64d464a5c8192c99db8918be2f0590797cc5157a09cb9e97adc3627804bd397661c",
+    "createdAt": "2026-04-20T17:35:36.990Z"
+  },
+  {
+    "id": "c9dc70c4-842e-46f7-94be-0a680abaabff",
+    "username": "akshay1",
+    "displayName": "akshay",
+    "password": "scrypt:dcf2aeef8aae427e193037a81946b347:49080a9c49bda6e798624dbb964e0cb4d0a3887e847ed102b3fb15327b94e09a234196f62464f64a73f61f0083fc60ead29907986d74eecb43e78fc32be05368",
+    "createdAt": "2026-04-22T01:40:42.541Z"
+  }
+]
