@@ -8,18 +8,23 @@ require("dotenv").config();
 const app = express();
 const PORT = Number(process.env.PORT) || 3000;
 const API_KEY = process.env.OPENROUTER_API_KEY;
-const DATA_DIR = path.join(__dirname, "data");
+const IS_PROD = process.env.NODE_ENV === "production";
+const TRUST_PROXY = IS_PROD || isTruthy(process.env.TRUST_PROXY) || isTruthy(process.env.RENDER);
+const PUBLIC_DIR = path.join(__dirname, "public");
+const DATA_DIR = path.resolve(process.env.DATA_DIR || path.join(__dirname, "data"));
 const USERS_FILE = path.join(DATA_DIR, "users.json");
 const USER_DATA_FILE = path.join(DATA_DIR, "user-data.json");
 const SESSION_COOKIE = "fitness_session";
+const SESSION_SECRET = process.env.SESSION_SECRET || API_KEY || "local-dev-session-secret";
 const SESSION_TTL_MS = 1000 * 60 * 60 * 24 * 7;
-const sessions = new Map();
 
+if (TRUST_PROXY) app.set("trust proxy", 1);
+app.disable("x-powered-by");
 app.use(express.json());
 
 // ── Public landing page (no auth required) ──
 app.get(["/home", "/home.html"], (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "home.html"));
+  res.sendFile(path.join(PUBLIC_DIR, "home.html"));
 });
 
 // ── Root: redirect to home if not logged in, else app ──
@@ -27,16 +32,20 @@ app.get(["/", "/index.html"], (req, res, next) => {
   const user = getSession(req);
   if (!user) return res.redirect("/home");
   req.user = user;
-  res.sendFile(path.join(__dirname, "public", "index.html"));
+  res.sendFile(path.join(PUBLIC_DIR, "index.html"));
 });
 
 // ── Login / register page ──
 app.get(["/login", "/login.html"], (req, res) => {
   if (getSession(req)) return res.redirect("/");
-  res.sendFile(path.join(__dirname, "public", "login.html"));
+  res.sendFile(path.join(PUBLIC_DIR, "login.html"));
 });
 
-app.use(express.static("public", { index: false }));
+app.use(express.static(PUBLIC_DIR, { index: false }));
+
+app.get("/healthz", (req, res) => {
+  res.json({ ok: true });
+});
 
 app.get("/api/me", requireAuthApi, (req, res) => {
   res.json({ user: req.user });
@@ -76,7 +85,7 @@ app.post("/api/register", async (req, res) => {
     await saveUsers(users);
 
     const publicUser = toPublicUser(user);
-    createSession(res, publicUser);
+    createSession(req, res, publicUser);
     res.status(201).json({ user: publicUser });
   } catch (err) {
     console.error("REGISTER ERROR:", err);
@@ -102,7 +111,7 @@ app.post("/api/login", async (req, res) => {
     }
 
     const publicUser = toPublicUser(user);
-    createSession(res, publicUser);
+    createSession(req, res, publicUser);
     res.json({ user: publicUser });
   } catch (err) {
     console.error("LOGIN ERROR:", err);
@@ -111,9 +120,7 @@ app.post("/api/login", async (req, res) => {
 });
 
 app.post("/api/logout", requireAuthApi, (req, res) => {
-  const token = getSessionToken(req);
-  if (token) sessions.delete(token);
-  clearSessionCookie(res);
+  clearSessionCookie(req, res);
   res.json({ ok: true });
 });
 
@@ -246,26 +253,87 @@ function requireAuthApi(req, res, next) {
 function getSession(req) {
   const token = getSessionToken(req);
   if (!token) return null;
-  const session = sessions.get(token);
-  if (!session) return null;
-  if (Date.now() > session.expiresAt) { sessions.delete(token); return null; }
-  return session.user;
+  return verifySessionToken(token);
 }
 
 function getSessionToken(req) {
   const cookie = req.headers.cookie || "";
   const match = cookie.match(new RegExp(`(?:^|;\\s*)${SESSION_COOKIE}=([^;]+)`));
-  return match ? match[1] : null;
+  if (!match) return null;
+  try {
+    return decodeURIComponent(match[1]);
+  } catch (err) {
+    return null;
+  }
 }
 
-function createSession(res, user) {
-  const token = crypto.randomBytes(32).toString("hex");
-  sessions.set(token, { user, expiresAt: Date.now() + SESSION_TTL_MS });
-  res.setHeader("Set-Cookie", `${SESSION_COOKIE}=${token}; HttpOnly; Path=/; Max-Age=${SESSION_TTL_MS / 1000}; SameSite=Lax`);
+function createSession(req, res, user) {
+  const token = signSessionToken(user);
+  res.setHeader("Set-Cookie", buildSessionCookie(req, token, SESSION_TTL_MS / 1000));
 }
 
-function clearSessionCookie(res) {
-  res.setHeader("Set-Cookie", `${SESSION_COOKIE}=; HttpOnly; Path=/; Max-Age=0; SameSite=Lax`);
+function clearSessionCookie(req, res) {
+  res.setHeader("Set-Cookie", buildSessionCookie(req, "", 0));
+}
+
+function signSessionToken(user) {
+  const payload = {
+    user: {
+      id: String(user.id || ""),
+      username: String(user.username || ""),
+      displayName: String(user.displayName || user.username || "")
+    },
+    expiresAt: Date.now() + SESSION_TTL_MS
+  };
+  const encodedPayload = Buffer.from(JSON.stringify(payload), "utf8").toString("base64url");
+  const signature = crypto.createHmac("sha256", SESSION_SECRET).update(encodedPayload).digest("base64url");
+  return `${encodedPayload}.${signature}`;
+}
+
+function verifySessionToken(token) {
+  const [encodedPayload, signature] = String(token || "").split(".");
+  if (!encodedPayload || !signature) return null;
+
+  const expectedSignature = crypto.createHmac("sha256", SESSION_SECRET).update(encodedPayload).digest("base64url");
+  const expectedBuffer = Buffer.from(expectedSignature, "utf8");
+  const receivedBuffer = Buffer.from(signature, "utf8");
+  if (expectedBuffer.length !== receivedBuffer.length) return null;
+  if (!crypto.timingSafeEqual(expectedBuffer, receivedBuffer)) return null;
+
+  try {
+    const payload = JSON.parse(Buffer.from(encodedPayload, "base64url").toString("utf8"));
+    if (!payload || Date.now() > Number(payload.expiresAt)) return null;
+    if (!payload.user || typeof payload.user !== "object") return null;
+    const id = String(payload.user.id || "").trim();
+    const username = String(payload.user.username || "").trim();
+    const displayName = String(payload.user.displayName || username).trim();
+    if (!id || !username) return null;
+    return { id, username, displayName: displayName || username };
+  } catch (err) {
+    return null;
+  }
+}
+
+function buildSessionCookie(req, value, maxAgeSeconds) {
+  const parts = [
+    `${SESSION_COOKIE}=${encodeURIComponent(value)}`,
+    "HttpOnly",
+    "Path=/",
+    `Max-Age=${maxAgeSeconds}`,
+    "SameSite=Lax"
+  ];
+
+  if (shouldUseSecureCookies(req)) {
+    parts.push("Secure");
+  }
+
+  return parts.join("; ");
+}
+
+function shouldUseSecureCookies(req) {
+  if (isTruthy(process.env.COOKIE_SECURE)) return true;
+  if (!IS_PROD) return false;
+  return Boolean(req.secure) || req.get("x-forwarded-proto") === "https" || isTruthy(process.env.RENDER);
 }
 
 // ── Data helpers ──
@@ -415,6 +483,7 @@ function pick(value, allowed, fallback) {
   return allowed.includes(text) ? text : fallback;
 }
 function clamp(value, min, max) { return Math.min(Math.max(value, min), max); }
+function isTruthy(value) { return /^(1|true|yes|on)$/i.test(String(value || "").trim()); }
 
 function labelTrainingType(type) {
   const labels = { running: "Running", gym: "Gym", home: "Home workout", mixed: "Mixed training" };

@@ -1,0 +1,20 @@
+services:
+  - type: web
+    runtime: node
+    name: fitai-planner
+    plan: starter
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /healthz
+    autoDeployTrigger: commit
+    envVars:
+      - key: OPENROUTER_API_KEY
+        sync: false
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: DATA_DIR
+        value: /var/data
+    disk:
+      name: fitai-data
+      mountPath: /var/data
+      sizeGB: 1
